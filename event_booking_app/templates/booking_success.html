@@ -1,0 +1,23 @@
+<!-- templates/booking_success.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Confirmed</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
+        .success-box { border: 1px solid #28a745; padding: 30px; max-width: 600px; margin: auto; background-color: #eafaf1; border-radius: 8px; }
+        h1 { color: #28a745; }
+    </style>
+</head>
+<body>
+<div class="success-box">
+    <h1>🎉 Booking Confirmed!</h1>
+    <p>Thank you for booking <strong>{{ booking.seats_booked }}</strong> ticket(s) for <strong>{{ booking.event.name }}</strong>.</p>
+    <p><strong>Booking Time:</strong> {{ booking.booking_time }}</p>
+    <p><strong>Location:</strong> {{ booking.event.location }}</p>
+    <p><strong>Total Amount:</strong> ₹{{ booking.seats_booked|floatformat:2|add:"0.00"|floatformat:2|add:booking.event.fees|floatformat:2 }}</p>
+    
+    <a href="{% url 'event' %}">← Back to Events</a>
+</div>
+</body>
+</html>
