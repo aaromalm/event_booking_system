@@ -41,6 +41,9 @@
                     <a href="{% url 'register' %}" style="color: #4CAF50; text-decoration: none; ">Register</a>
                 </p>
             </form>
+            <form action="{% url 'admin:login' %}" method="get">
+                <button type="submit">Admin Login</button>
+            </form>
         </div>
     </div>
 </body>

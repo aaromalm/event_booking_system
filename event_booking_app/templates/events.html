@@ -35,6 +35,10 @@
     <header class="headerbg">
         <div class="overlay">
             <h1>Grab your tickets now</h1>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
         </div>
     </header>
 

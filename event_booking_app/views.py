@@ -62,37 +62,38 @@ class EventView(View):
         events = Event.objects.all()
         return render(request, 'events.html', {'events': events})
 
-
-# class EventAPIView(APIView):
-#     def get(self, request, pk=None):
-#         if pk:
-#             event = get_object_or_404(Event, pk=pk)
-#             return render(request, 'eventpk.html', {'event': event})
+"""
+class EventAPIView(APIView):
+    def get(self, request, pk=None):
+        if pk:
+            event = get_object_or_404(Event, pk=pk)
+            return render(request, 'eventpk.html', {'event': event})
         
-#         events = Event.objects.all()
-#         return render(request, 'events.html', {'events': events})
+        events = Event.objects.all()
+        return render(request, 'events.html', {'events': events})
 
 
 
-#     def post(self, request):
-#         serializer = EventSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()  # assumes authentication
-#             return Response({"message": "Event created successfully"}, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()  # assumes authentication
+            return Response({"message": "Event created successfully"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     def put(self, request, pk):
-#         event = get_object_or_404(Event, pk=pk)
-#         serializer = EventSerializer(event, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({"message": "Event updated successfully"})
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        serializer = EventSerializer(event, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Event updated successfully"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     def delete(self, request, pk):
-#         event = get_object_or_404(Event, pk=pk)
-#         event.delete()
-#         return Response({"message": "Event deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, pk):
+        event = get_object_or_404(Event, pk=pk)
+        event.delete()
+        return Response({"message": "Event deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+"""
 
 class RegisterAPIView(APIView):
     serializer_class = RegisterSerializer
@@ -110,6 +111,8 @@ class RegisterAPIView(APIView):
 
 
 
+from django.contrib.auth import login
+
 class LoginAPIView(APIView):
     serializer_class = LoginSerializer
 
@@ -117,16 +120,20 @@ class LoginAPIView(APIView):
         return render(request, 'login.html')
 
     def post(self, request, *args, **kwargs):
-        if request.accepted_renderer.format == 'html' or request.content_type == 'application/x-www-form-urlencoded':
-            serializer = self.serializer_class(data=request.POST)
-            if serializer.is_valid():
-                user = serializer.validated_data['user']
-                
-                # ✅ Login the user to start session
-                login(request, user)  
+        serializer = self.serializer_class(data=request.POST)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
 
-                return redirect('event')
-            return render(request, 'login.html', {'errors': serializer.errors})
+            if user.is_staff:
+                return redirect('/admin/') 
+
+            login(request, user)
+            
+            return redirect('event')  
+
+        return render(request, 'login.html', {'errors': serializer.errors})
+
+
         
         # API-based login (Postman, etc.)
         serializer = self.serializer_class(data=request.data)
@@ -244,3 +251,11 @@ import qrcode
 qr_url = "http://172.25.247.140:800/qr-book/"
 qr = qrcode.make(qr_url)
 qr.save("qr_booking_link.png")
+
+
+# For logout
+from django.contrib.auth import logout
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
