@@ -6,14 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discover Events</title>
     <link rel="stylesheet" href="{% static 'css/events.css' %}">
-    <!-- for font from google -->
+   
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
-
-
-
 </head>
 <body>
+
+ 
     <nav class="navbar">
         <div class="left">
             <h2>EventHive</h2>
@@ -22,56 +21,51 @@
             <input type="text" placeholder="Search for events..." />
         </div>
         <div class="right">
-            <span>♡</span>
             {% if user.is_authenticated %}
                 <span>👤 {{ user.username }}</span>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
             {% else %}
                 <a href="{% url 'login' %}">Login</a>
-
             {% endif %}
         </div>
+
     </nav>
 
+ 
     <header class="headerbg">
         <div class="overlay">
-            <h1>Grab your tickets now</h1>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
+            <h1>"All Events. One Destination."
         </div>
     </header>
 
+  
     <section class="event-section">
-    <h2>Events</h2>
-    <div class="event-grid">
-        {% for event in events %}
-        <div class="event-card">
-            <div class="event-image">
-                {% if event.image %}
-                    <img src="{{ event.image.url }}" alt="{{ event.name }}">
-                {% else %}
-                    <img src="{% static 'images/default_event.jpg' %}" alt="Default Event">
-                {% endif %}
-            </div>
-            <div class="event-info">
-                <h3>{{ event.name }}</h3>
-                <p class="venue">📍 {{ event.location }}</p>
-                <p class="date">{{ event.date|date:"F d, Y" }}</p>
-            </div>
-            <div class="event-buttons" style="padding: 0 20px 20px;">
-                <a href="{% url 'event-pk' event.pk %}">
-                    <button class="details-btn">More Details</button>
-                </a>
-                <a href="{% url 'booking-form' event.pk %}">
-                    <button class="book-btn">Book</button>
-                </a>
-            </div>
+        <h2>Events</h2>
+        <div class="event-grid">
+            {% for event in events %}
+            <a href="{% url 'event-pk' event.pk %}" class="event-card-link">
+                <div class="event-card">
+                    <div class="event-image">
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" alt="{{ event.name }}">
+                        {% else %}
+                            <img src="{% static 'images/default_event.jpg' %}" alt="Default Event">
+                        {% endif %}
+                    </div>
+                    <div class="event-info">
+                        <h3>{{ event.name }}</h3>
+                        <p class="date">{{ event.date|date:"F d, Y" }}</p>
+                        <p class="venue">📍 {{ event.location }}</p>
+                        <p class="price">₹ {{ event.fees }}</p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
     </section>
-
 
 </body>
 </html>

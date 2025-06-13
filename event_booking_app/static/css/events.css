@@ -41,6 +41,25 @@ body {
     text-decoration: none;
 }
 
+.logout-form {
+    margin: 0;
+}
+
+.logout-form button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.logout-form button:hover {
+    text-decoration: underline;
+}
+
+
 
 .headerbg {
     background: url('/static/images/header.jpg') no-repeat;
@@ -63,7 +82,7 @@ body {
 
 .overlay h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 52px;
+    font-size: 48px;
 }
 
 
@@ -95,12 +114,28 @@ body {
     border-radius: 12px;
     overflow: hidden;
     width: 270px;
-    height: 400px;
+    height: 415px; 
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: transform 0.2s ease;
     display: flex;
     flex-direction: column;
 }
+
+
+/* Make entire card look like normal content even though it's a link */
+.event-card-link {
+    text-decoration: none; /* Removes underline */
+    color: inherit; 
+    display: block; /* Makes entire card clickable */
+}
+
+/* Ensure content inside event card also doesn't get link styles */
+.event-card-link * {
+    text-decoration: none;
+    color: inherit;
+}
+
+
 
 .event-card:hover {
     transform: translateY(-5px);
@@ -118,7 +153,12 @@ body {
 }
 .event-info {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between;
 }
+
 
 .event-info h3 {
     margin: 10px 0 5px;
@@ -131,9 +171,13 @@ body {
 }
 
 .event-info .date {
-    font-size: 13px;
-    color: #999;
+    font-size: 14px;
+    color: #555555;
     
+}
+
+.event-info .price {
+    font-size: 20px;
 }
 
 .event-buttons {
