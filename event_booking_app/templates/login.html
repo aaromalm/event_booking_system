@@ -8,9 +8,18 @@
     <link rel="stylesheet" href="{%static 'css/login_register.css'%}">
 </head>
 <body>
+    <div class="admin-login-container">
+        <form action="{% url 'admin:login' %}" method="get">
+            <button type="submit">Admin Login</button>
+        </form>
+    </div>
+
     <div class="login-wrapper">
         <header class="main-header">
-            EventHive
+            <div class="event-logo-header">
+                <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+                <span class="event-logo-text">EventHive</span>
+            </div>
         </header>
 
         <div class="login-container">
@@ -19,7 +28,7 @@
                 <div class="error-messages">
                         {% for field, error_list in errors.items %}
                             {% for error in error_list %}
-                                <p><strong>{{ field }}:</strong> {{ error }}</p>
+                                <p> {{ error }}</p>
                             {% endfor %}
                         {% endfor %}
                 </div>
@@ -37,13 +46,11 @@
 
                 <button type="submit">Login</button>
 
-                <p style="text-align: center; margin-top: 15px; color: white;">Don't have an account?
-                    <a href="{% url 'register' %}" style="color: #4CAF50; text-decoration: none; ">Register</a>
+                <p style="text-align: center; margin-top: 15px; color: black;">Don't have an account?
+                    <a href="{% url 'register' %}" style="color: #4CAF50; text-decoration: none ; ">Register</a>
                 </p>
             </form>
-            <form action="{% url 'admin:login' %}" method="get">
-                <button type="submit">Admin Login</button>
-            </form>
+            
         </div>
     </div>
 </body>

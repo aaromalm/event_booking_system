@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Exo+2:wght@600&family=Open+Sans&family=Poppins:wght@400;600&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom right, #fffbea, #fef9c3);
+    color: #333;
+    position: relative; /* <-- add this */
+    min-height: 100vh;
+}
+
+
+/* Container */
+.booking-container {
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Logo Section */
+.event-logo-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.event-logo-img {
+    height: 60px;
+    width: 60px;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+.event-logo-text {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 31px;
+    font-weight: 600;
+    color: #222;
+}
+
+/* Back Button */
+.back-container {
+    position: absolute;
+    top: 60px;
+    left: 475px;
+    z-index: 10;
+}
+
+
+.back-btn {
+    display: inline-block;
+    background-color: #ffcc00;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    color: black;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid black;        
+}
+
+.back-btn:hover {
+    background-color: #e6b800;
+    box-shadow: 0 8px 18px rgba(230, 184, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Booking Form Card */
+.booking-form {
+    background: linear-gradient(to bottom right, #fffef6, #fdf5c5);
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(247, 197, 0, 0.2);
+    max-width: 700px;
+    width: 100%;
+    border: 2px solid #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.booking-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-family: 'Georgia', serif;
+    text-align: center;
+}
+
+/* Summary Info */
+.event-summary {
+    font-size: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.event-summary p {
+    margin: 6px 0;
+}
+
+.booking-form label {
+    font-weight: bold;
+    display: block;
+    margin: 12px 0 6px;
+}
+
+.booking-form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+/* Book Button */
+.book-btn {
+    margin-top: 20px;
+    padding: 10px 24px;
+    background-color: #ffcc00;
+    color: black;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.book-btn:hover {
+    background-color: #e6b800;
+    box-shadow: 0 8px 18px rgba(230, 184, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Error Message */
+.error-message {
+    color: red;
+    margin-top: 15px;
+    text-align: center;
+}

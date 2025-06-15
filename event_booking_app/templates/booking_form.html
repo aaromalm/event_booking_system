@@ -1,39 +1,80 @@
-<!-- templates/booking_form.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Book Tickets for {{ event.name }}</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .container { max-width: 600px; margin: auto; }
-        .event-details { margin-bottom: 20px; }
-        .error { color: red; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book {{ event.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
 </head>
-<body>
-<div class="container">
-    <h1>Book Tickets for "{{ event.name }}"</h1>
 
-    <div class="event-details">
-        <p><strong>Date:</strong> {{ event.date }}</p>
-        <p><strong>Location:</strong> {{ event.location }}</p>
-        <p><strong>Seats Available:</strong> {{ event.available_seats }}</p>
-        <p><strong>Ticket Price:</strong> ₹{{ event.fees }}</p>
+<body>
+
+<div class="booking-container">
+
+    <div class="back-container">
+        <a href="{% url 'event-pk' pk=event.pk %}">
+            <button class="back-btn">← Back</button>
+        </a>
     </div>
 
-    {% if messages %}
-        {% for message in messages %}
-            <p class="error">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+    
 
-    <form method="post">
-        {% csrf_token %}
-        <label for="seats">Number of Tickets:</label>
-        <input type="number" id="seats" name="seats" min="1" max="{{ event.available_seats }}" required>
-        <br><br>
-        <button type="submit">Confirm Booking</button>
-    </form>
+    <div class="booking-form">
+
+        <div class="event-logo-header">
+            <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+            <span class="event-logo-text">EventHive</span>
+        </div>
+
+        <h2>Book Tickets for "{{ event.name }}"</h2>
+
+        <div class="event-summary">
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <p><strong>Price:</strong> ₹ {{ event.fees }}</p>
+            <p><strong>Available Seats:</strong> <span id="available-seats">{{ event.available_seats }}</span></p>
+
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="seats">Number of Seats:</label>
+            <input type="number" name="seats" min="1" max="{{ event.available_seats }}" required>
+
+            <p id="total-amount" style="font-weight: 600; margin-top: 15px;">Total: ₹ 0</p>
+
+            <button type="submit" class="book-btn">Confirm Booking</button>
+        </form>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="error-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    </div>
 </div>
+
+<script>
+    const seatInput = document.querySelector('input[name="seats"]');
+    const totalAmountDisplay = document.getElementById('total-amount');
+    const availableSeatsDisplay = document.getElementById('available-seats');
+    const pricePerSeat = {{ event.fees|floatformat:2 }};
+    const originalAvailableSeats = parseInt(availableSeatsDisplay.textContent);
+
+    seatInput.addEventListener('input', function () {
+        const numSeats = parseInt(seatInput.value) || 0;
+
+        // Update total amount
+        const total = numSeats * pricePerSeat;
+        totalAmountDisplay.textContent = `Total: ₹ ${total.toFixed(2)}`;
+
+        // Update available seats
+        const remainingSeats = Math.max(originalAvailableSeats - numSeats, 0);
+        availableSeatsDisplay.textContent = remainingSeats;
+    });
+</script>
+
+
 </body>
 </html>

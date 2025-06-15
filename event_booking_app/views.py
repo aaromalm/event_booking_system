@@ -8,10 +8,10 @@ from django.shortcuts import get_object_or_404
 #for sending mail
 from django.core.mail import send_mail,EmailMessage
 from django.conf import settings
+from .utils import generate_ticket_image 
 
 #for qr code
 from django.http import HttpResponse
-from .utils import generate_qr_code
 
 #for template
 from django.shortcuts import render,redirect
@@ -23,28 +23,25 @@ from django.contrib import messages
 from django.contrib.auth import login  
 
 def send_booking_email(to_email, event_name, seats, booking):
-        subject = f"Booking Confirmation for {event_name}"
-        message = f"Thank you for booking {seats} seats for {event_name}."
-        email = EmailMessage(
-            subject=subject,
-            body=message,
-            from_email=settings.EMAIL_HOST_USER,
-            to=[to_email]
-    )
         
-        # Determine username or name
         if hasattr(booking, 'user'):
             username = booking.user.username
         elif hasattr(booking, 'name'):
             username = booking.name
         else:
             username = "Guest"
+    
+        subject = f"Booking Confirmation for {event_name}"
+        message = f"Hi {username},\n\nThank you for booking {seats} seat(s) for '{event_name}'.\nPlease find your ticket attached below.\n\nEnjoy the event!\n\n- EventHive Team"
+        email = EmailMessage(
+            subject=subject,
+            body=message,
+            from_email=settings.EMAIL_HOST_USER,
+            to=[to_email]
+    )
 
-        qr_data = f"Booking ID: {booking.id}\nUser: {username}\nEvent: {event_name}\nSeats: {seats}\nDate: {booking.event.date}"
-        qr_image = generate_qr_code(qr_data) 
-
-        email.attach(f"ticket_qr_{booking.id}.png", qr_image, 'image/png')
-
+        ticket_image = generate_ticket_image(booking)
+        email.attach(f"EventHive_Ticket_{booking.id}.png", ticket_image, 'image/png')
         try:
             email.send()
             print("Email sent successfully!")
@@ -259,3 +256,24 @@ from django.contrib.auth import logout
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+#For filtering
+from .models import Event
+
+def event_list_view(request):
+    events = Event.objects.all()
+
+    location = request.GET.get('location')
+    search_query = request.GET.get('q')  # for search bar in navbar
+
+    if search_query:
+        events = events.filter(name__icontains=search_query)
+
+    if location:
+        events = events.filter(location__icontains=location)
+
+    return render(request, 'events.html', {
+        'events': events,
+        'search_query': search_query,
+        'location': location,
+    })

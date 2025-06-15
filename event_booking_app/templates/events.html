@@ -9,20 +9,25 @@
    
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet">
+    
 </head>
 <body>
 
  
     <nav class="navbar">
         <div class="left">
-            <h2>EventHive</h2>
+                <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="logo-img">
+                <h2>EventHive</h2>
         </div>
         <div class="center">
-            <input type="text" placeholder="Search for events..." />
+        <form method="get" action="{% url 'event-list' %}" class="navbar-search-form">
+                <input type="text" name="q" placeholder="Search for events..." value="{{ search_query }}">
+            </form>
         </div>
+
         <div class="right">
             {% if user.is_authenticated %}
-                <span>👤 {{ user.username }}</span>
+                <span class="username-display">👤 {{ user.username }}</span>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
@@ -43,7 +48,16 @@
 
   
     <section class="event-section">
-        <h2>Events</h2>
+        <div class="event-filter">
+            <h2>Events</h2>
+
+            <form method="get" action="{% url 'event-list' %}" class="event-filter-form">
+                <label for="location">Location:</label>
+                <input type="text" name="location" id="location" placeholder="Enter location" value="{{ request.GET.location }}">
+
+                <button type="submit">Filter</button>
+            </form>
+        </div>    
         <div class="event-grid">
             {% for event in events %}
             <a href="{% url 'event-pk' event.pk %}" class="event-card-link">

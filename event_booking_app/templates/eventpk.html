@@ -1,39 +1,44 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ event.name }} - Event Details</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        .event-container {
-            border: 1px solid #bebd62;
-            padding: 25px;
-            border-radius: 30px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .event-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .event-detail {
-            margin: 10px 0;
-        }
-        .label {
-            font-weight: bold;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ event.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/eventpk.css' %}">
 </head>
 <body>
-    <div class="event-container">
-        <div class="event-title">{{ event.name }}</div>
-        <div class="event-detail"><span class="label">Date:</span> {{ event.date }}</div>
-        <div class="event-detail"><span class="label">Location:</span> {{ event.location }}</div>
-        <div class="event-detail"><span class="label">Available Seats:</span> {{ event.available_seats }}</div>
-        <div class="event-detail"><span class="label">Total Seats:</span> {{ event.total_seats }}</div>
-        <div class="event-detail"><span class="label">Organizer:</span> {{ event.organizer }}</div>
-        <div class="event-detail"><span class="label">Description:</span><br>{{ event.description }}</div>
+<div class="event-detail-container">
+    
+    <div class="back-container">
+        <a href="{% url 'event'  %}">
+            <button class="back-btn">← Back</button>
+        </a>
     </div>
+    
+    <div class="event-detail-card">
+        <div class="event-logo-header">
+            <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+            <span class="event-logo-text">EventHive</span>
+        </div>
+
+        {% if event.image %}
+            <img src="{{ event.image.url }}" alt="{{ event.name }}" class="event-main-image">
+        {% endif %}
+
+        <h1>{{ event.name }}</h1>
+        <p>{{ event.description }}</p>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <p><strong>Location:</strong> {{ event.location }}</p>
+        <p><strong>Organizer:</strong> {{ event.organizer }}</p>
+        <p><strong>Available Seats:</strong> {{ event.available_seats }}</p>
+        <p><strong>Price:</strong> ₹ {{ event.fees }}</p>
+
+        <a href="{% url 'booking-form' event.event_id %}">
+            <button class="book-btn">Book Now</button>
+        </a>
+    </div>
+</div>
+
 </body>
 </html>

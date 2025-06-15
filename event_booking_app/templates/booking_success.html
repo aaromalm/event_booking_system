@@ -1,23 +1,33 @@
-<!-- templates/booking_success.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Booking Confirmed</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; text-align: center; }
-        .success-box { border: 1px solid #28a745; padding: 30px; max-width: 600px; margin: auto; background-color: #eafaf1; border-radius: 8px; }
-        h1 { color: #28a745; }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Success</title>
+    <link rel="stylesheet" href="{% static 'css/booking_success.css' %}">
 </head>
 <body>
-<div class="success-box">
-    <h1>🎉 Booking Confirmed!</h1>
-    <p>Thank you for booking <strong>{{ booking.seats_booked }}</strong> ticket(s) for <strong>{{ booking.event.name }}</strong>.</p>
-    <p><strong>Booking Time:</strong> {{ booking.booking_time }}</p>
-    <p><strong>Location:</strong> {{ booking.event.location }}</p>
-    <p><strong>Total Amount:</strong> ₹{{ booking.seats_booked|floatformat:2|add:"0.00"|floatformat:2|add:booking.event.fees|floatformat:2 }}</p>
-    
-    <a href="{% url 'event' %}">← Back to Events</a>
+
+<div class="success-container">
+
+    <div class="event-logo-header">
+        <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+        <span class="event-logo-text">EventHive</span>
+    </div>
+
+    <h2>🎉 Booking Confirmed!</h2>
+
+    <div class="success-summary">
+        <p>Thank you for booking <strong>{{ booking.seats_booked }}</strong> ticket(s) for <strong>{{ booking.event.name }}</strong>.</p>
+        <p>We’ve sent your ticket and a QR code to your email.</p>
+    </div>
+
+    <a href="{% url 'event' %}">
+        <button class="back-btn">← Back to Events</button>
+    </a>
+
 </div>
+
 </body>
 </html>

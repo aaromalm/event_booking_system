@@ -8,8 +8,17 @@
     <link rel="stylesheet" href="{%static 'css/login_register.css'%}">
 </head>
 <body>
+    <div class="admin-login-container">
+        <form action="{% url 'admin:login' %}" method="get">
+            <button type="submit">Admin Login</button>
+        </form>
+    </div>
+
     <div class="register-wrapper">
-        <header class="main-header">EventHive</header>
+        <div class="event-logo-header">
+                <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+                <span class="event-logo-text">EventHive</span>
+        </div>
         <div class="register-container">
             <h2>Register</h2>
 
