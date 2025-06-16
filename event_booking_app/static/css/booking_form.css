@@ -5,17 +5,19 @@ body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(to bottom right, #fffbea, #fef9c3);
     color: #333;
-    position: relative; /* <-- add this */
+    position: relative; 
     min-height: 100vh;
 }
 
 
 /* Container */
 .booking-container {
-    padding: 60px 20px;
+    margin-top: 50px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start; 
+    justify-content: center;
+    gap: 20px; 
+    padding: 30px;
 }
 
 /* Logo Section */
@@ -43,10 +45,11 @@ body {
 
 /* Back Button */
 .back-container {
-    position: absolute;
-    top: 60px;
-    left: 475px;
-    z-index: 10;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
 }
 
 

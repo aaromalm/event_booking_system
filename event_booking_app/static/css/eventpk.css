@@ -10,10 +10,14 @@ body {
 
 /* Container Setup */
 .event-detail-container {
-    padding: 60px 20px;
+    margin-top: 50px;
     display: flex;
+    align-items: flex-start; 
     justify-content: center;
+    gap: 20px; 
+    padding: 30px;
 }
+
 
 /* Event Card Styling */
 .event-detail-card {
@@ -106,7 +110,10 @@ body {
 /* Back Button Styling */
 .back-container {
     position: relative;
-    left: -5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
 .back-btn {

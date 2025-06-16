@@ -1,0 +1,69 @@
+<!-- templates/admin_dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard - EventHive</title>
+  <style>
+    body {
+      background: #fff9e6;
+      font-family: 'Poppins', sans-serif;
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .section {
+      margin: 30px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background: #ffda77;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome Admin!</h1>
+
+  <div class="section">
+    <h2>Users</h2>
+    <table>
+      <tr>
+        <th>ID</th><th>Username</th><th>Email</th>
+      </tr>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>Events</h2>
+    <table>
+      <tr>
+        <th>ID</th><th>Name</th><th>Date</th><th>Location</th>
+      </tr>
+      {% for event in events %}
+      <tr>
+        <td>{{ event.id }}</td>
+        <td>{{ event.name }}</td>
+        <td>{{ event.date }}</td>
+        <td>{{ event.location }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</body>
+</html>

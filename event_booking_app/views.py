@@ -22,6 +22,7 @@ from django.contrib import messages
 #for logging in 
 from django.contrib.auth import login  
 
+
 def send_booking_email(to_email, event_name, seats, booking):
         
         if hasattr(booking, 'user'):
@@ -103,7 +104,7 @@ class RegisterAPIView(APIView):
         if serializer.is_valid():
             serializer.save()
             messages.success(request, "Registration successful! Please log in.")
-            return redirect('login')  # You can update the URL name as needed
+            return redirect('login')  
         return render(request, 'register.html', {'errors': serializer.errors})
 
 
@@ -122,7 +123,7 @@ class LoginAPIView(APIView):
             user = serializer.validated_data['user']
 
             if user.is_staff:
-                return redirect('/admin/') 
+                return redirect('admin-dashboard') 
 
             login(request, user)
             
@@ -183,9 +184,8 @@ class BookingCreateView(APIView):
 #                           Sends confirmation with QR
 #                           Shows a success page)
 
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.contrib.auth.decorators import login_required
 @login_required
 def booking_form_view(request, event_id):
     event = get_object_or_404(Event, event_id=event_id)
@@ -223,29 +223,37 @@ class TicketQRView(APIView):
 
 
 class QRBookingCreateView(APIView):
-    permission_classes=[permissions.AllowAny]
+    permission_classes = [permissions.AllowAny]
 
-    def post(self,request):
-        serializer= QRBookingSerializer(data=request.data)
+    def get(self, request):
+        events = Event.objects.all()
+        return render(request, 'qr-book.html', {'events': events})
+
+    def post(self, request):
+        serializer = QRBookingSerializer(data=request.POST) 
+
         if serializer.is_valid():
-            booking=serializer.save()
+            booking = serializer.save()
 
-            # Send confirmation email
             user_email = booking.email
             event_name = booking.event.name
             seats = booking.seats_booked
             send_booking_email(user_email, event_name, seats, booking)
 
-            return Response({
-                "message": "Booking successful",
-                "booking_id": booking.id
-                },status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            messages.success(request, "Booking successful!")
+            return redirect('qr-book')  # Redirect to same page or a 'thank you' page
+
+        # If errors, render the form again with errors and events
+        events = Event.objects.all()
+        return render(request, 'qr-book.html', {
+            'events': events,
+            'errors': serializer.errors,
+        })
     
  # Generate the QR Code for booking without Logging in   
 import qrcode
 
-qr_url = "http://172.25.247.140:800/qr-book/"
+qr_url = "http://172.25.247.140:8000/qr-book/"
 qr = qrcode.make(qr_url)
 qr.save("qr_booking_link.png")
 
@@ -277,3 +285,30 @@ def event_list_view(request):
         'search_query': search_query,
         'location': location,
     })
+
+
+#admin view
+from django.contrib.auth import authenticate
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.models import User
+
+def admin_login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        if user and user.is_staff:
+            login(request, user)
+            return redirect('admin-dashboard')
+        else:
+            messages.error(request, "Invalid admin credentials.")
+
+    return render(request, 'admin_login.html')
+
+
+@staff_member_required(login_url='/admin-login/')
+def admin_dashboard_view(request):
+    users = User.objects.filter(is_staff=False)
+    events = Event.objects.all()
+    return render(request, 'admin_dashboard.html', {'users': users, 'events': events})

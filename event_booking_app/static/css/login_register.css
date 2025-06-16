@@ -143,7 +143,99 @@ a:hover {
     color: #222;
 }
 
+.top-bar-container {
+    position: relative;
+    width: 100%;
+}
+
 .admin-login-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+.user-login-container {
+    position: absolute;
+    top: 20px;
+    right: 180px; 
+    z-index: 999;
+}
+
+/* QR Upload */
+.large-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    color: #222;
+    font-family: 'Open Sans', sans-serif
+}
+
+input[type="number"] {
+    width: 94%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    color: #222;
+    font-family: 'Open Sans', sans-serif
+}
+
+.qr-upload-section {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.qr-upload-section:hover {
+    border-color: #4CAF50;
+    background-color: #f1fff4;
+}
+
+.qr-upload-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    margin-bottom: 12px;
+}
+
+#qr-file {
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 14px;
+}
+
+#qr-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.qr-upload-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.qr-upload-btn:hover {
+    background-color: #45a049;
+}
+
+.login-box {
     position: absolute;
     top: 20px;
     right: 20px;

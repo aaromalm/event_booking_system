@@ -1,4 +1,5 @@
 from django.urls import path
+from . import views
 from .views import *
 
 
@@ -20,5 +21,10 @@ urlpatterns = [
 
 
    path('book/<int:booking_id>/qr/', TicketQRView.as_view()),     #no need to use this, its just to show qr
-   path('qr-book/', QRBookingCreateView.as_view(), name='qr-booking'),
+   path('qr-book/', QRBookingCreateView.as_view(), name='qr-book'),
+
+
+   path('admin-login/', admin_login_view, name='admin-login'),
+    path('admin-panel/', admin_dashboard_view, name='admin-dashboard'),
+
 ]

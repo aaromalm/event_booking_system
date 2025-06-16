@@ -5,15 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
+    <link rel="icon" href="{% static 'images/EventHive.png' %}" type="image/png">
+
     <link rel="stylesheet" href="{%static 'css/login_register.css'%}">
 </head>
 <body>
-    <div class="admin-login-container">
-        <form action="{% url 'admin:login' %}" method="get">
-            <button type="submit">Admin Login</button>
-        </form>
+    <div class="top-bar-container">
+        <div class="user-login-container">
+            <form action="{% url 'login' %}" method="get">
+                <button type="submit">User Login</button>
+            </form>
+        </div>
+        <div class="admin-login-container">
+            <form action="{% url 'admin:login' %}" method="get">
+                <button type="submit">Admin Login</button>
+            </form>
+        </div>
     </div>
-
     <div class="register-wrapper">
         <div class="event-logo-header">
                 <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">

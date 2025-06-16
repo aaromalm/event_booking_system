@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
+    <link rel="icon" href="{% static 'images/EventHive.png' %}" type="image/png">
+
     <link rel="stylesheet" href="{%static 'css/login_register.css'%}">
+
+    <script src="https://unpkg.com/@zxing/library@latest"></script>
 </head>
 <body>
     <div class="admin-login-container">
-        <form action="{% url 'admin:login' %}" method="get">
-            <button type="submit">Admin Login</button>
-        </form>
+        <a href="{% url 'admin-login' %}">
+            <button class="admin-btn">Admin Login</button>
+        </a>
     </div>
 
     <div class="login-wrapper">
@@ -34,7 +38,9 @@
                 </div>
             {% endif %}
             {% if messages %}
-                 <p class="success-message">{{ message }}</p>
+                {% for message in messages %}
+                    <p class="success-message">{{ message }}</p>
+                {% endfor %}
             {% endif %}
             <form method="post">
                 {% csrf_token %}
@@ -49,9 +55,70 @@
                 <p style="text-align: center; margin-top: 15px; color: black;">Don't have an account?
                     <a href="{% url 'register' %}" style="color: #4CAF50; text-decoration: none ; ">Register</a>
                 </p>
+
+            <!-- QR Code Upload -->
+            <div class="qr-upload-section">
+                <label for="qr-file" class="qr-upload-label">Or Upload QR Code</label>
+                <input type="file" id="qr-file" accept="image/*">
+                
+                <button type="button" id="upload-qr-btn" class="qr-upload-btn">Upload QR</button>
+
+                <p id="qr-error" class="error-messages"></p>
+            </div>
+
+
             </form>
             
         </div>
     </div>
+<script>
+    let qrFileDataUrl = null;
+
+    document.getElementById('qr-file').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            qrFileDataUrl = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    document.getElementById('upload-qr-btn').addEventListener('click', function () {
+        const errorElement = document.getElementById('qr-error');
+        errorElement.textContent = "";
+
+        if (!qrFileDataUrl) {
+            errorElement.textContent = "Please select a QR image before uploading.";
+            return;
+        }
+
+        const img = new Image();
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const context = canvas.getContext('2d');
+            context.drawImage(img, 0, 0);
+
+            const dataUrl = canvas.toDataURL();
+            const codeReader = new ZXing.BrowserQRCodeReader();
+
+            codeReader.decodeFromImage(undefined, dataUrl)
+                .then(result => {
+                    if (result && result.text === "http://172.25.247.140:8000/qr-book/") {
+                        window.location.href = result.text;
+                    } else {
+                        errorElement.textContent = "Invalid QR code. Please upload a valid EventHive QR.";
+                    }
+                })
+                .catch(() => {
+                    errorElement.textContent = "Unable to decode QR code. Please try another image.";
+                });
+        };
+        img.src = qrFileDataUrl;
+    });
+</script>
 </body>
 </html>

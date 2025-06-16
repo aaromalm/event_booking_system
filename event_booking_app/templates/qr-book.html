@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Booking</title>
+    <link rel="icon" href="{% static 'images/EventHive.png' %}" type="image/png">
+    <link rel="stylesheet" href="{% static 'css/login_register.css' %}">
+</head>
+<body>
+
+<div class="login-box">
+    <form action="{% url 'login' %}" method="get">
+        <button type="submit">User Login</button>
+    </form>
+</div>
+
+<div class="login-wrapper">
+    <header class="main-header">
+        <div class="event-logo-header">
+            <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="event-logo-img">
+            <span class="event-logo-text">EventHive</span>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <h2>QR Code Booking</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="success-message">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if errors %}
+            <div class="error-messages">
+                {% for field, error_list in errors.items %}
+                    {% for error in error_list %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" required>
+
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+
+            <label for="event" style="margin-top: 20px; display: block;">Event</label>
+            <select name="event" id="event" class="large-dropdown" required>
+                <option value="" disabled selected>Select an event</option>
+                {% for event in events %}
+                    <option value="{{ event.name }}">{{ event.name }} - ₹{{ event.fees }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="seats_booked" style="margin-top: 20px; display: block;">Seats</label>
+            <input type="number" name="seats_booked" id="seats_booked" min="1" required>
+
+            <p id="qr-total-amount" style="font-weight: 600; margin-top: 15px;">Total: ₹ 0</p>
+
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const eventSelect = document.getElementById('event');
+    const seatsInput = document.getElementById('seats_booked');
+    const totalAmountDisplay = document.getElementById('qr-total-amount');
+
+    const eventFees = {
+        {% for event in events %}
+            "{{ event.name }}": {{ event.fees }}
+        {% endfor %}
+    };
+
+    function updateTotal() {
+        const selectedEvent = eventSelect.value;
+        const fee = eventFees[selectedEvent] || 0;
+        const seats = parseInt(seatsInput.value) || 0;
+        const total = fee * seats;
+        totalAmountDisplay.textContent = `Total: ₹ ${total.toFixed(2)}`;
+    }
+
+    eventSelect.addEventListener('change', updateTotal);
+    seatsInput.addEventListener('input', updateTotal);
+</script>
+
+</body>
+</html>
