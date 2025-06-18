@@ -26,5 +26,18 @@ urlpatterns = [
 
    path('admin-login/', admin_login_view, name='admin-login'),
     path('admin-panel/', admin_dashboard_view, name='admin-dashboard'),
+   
+    path('admin-events/', admin_event_list_view, name='admin-event-list'),
+    path('admin-events/add/', admin_add_event_view, name='admin-add-event'),
+    path('admin-events/edit/<int:pk>/', admin_edit_event_view, name='admin-edit-event'),
+    path('admin-events/delete/<int:pk>/', admin_delete_event_view, name='admin-delete-event'),
+    path('admin-events/view/<int:pk>/', admin_view_event_view, name='admin-view-event'),
+
+
+    path('admin-registered-users/', admin_registered_users_view, name='admin-registered-users'),
+    path('admin-qr-bookings/', admin_qr_bookings_view, name='admin-qr-bookings'),
+    path('admin-registered-bookings/', admin_registered_bookings_view, name='admin-registered-bookings'),
+
+
 
 ]

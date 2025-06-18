@@ -291,6 +291,8 @@ def event_list_view(request):
 from django.contrib.auth import authenticate
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+from .forms import EventForm
+
 
 def admin_login_view(request):
     if request.method == 'POST':
@@ -306,9 +308,82 @@ def admin_login_view(request):
 
     return render(request, 'admin_login.html')
 
-
 @staff_member_required(login_url='/admin-login/')
 def admin_dashboard_view(request):
-    users = User.objects.filter(is_staff=False)
     events = Event.objects.all()
-    return render(request, 'admin_dashboard.html', {'users': users, 'events': events})
+    users = User.objects.filter(is_staff=False)
+    qr_users = QRBooking.objects.all()
+    total_registered_bookings = Booking.objects.count()
+    return render(request, 'admin_dashboard.html', {
+        'events': events,
+        'users': users,
+        'qr_users': qr_users,
+        'total_registered_bookings': total_registered_bookings,
+    })
+
+
+@staff_member_required(login_url='/admin-login/')
+def admin_registered_users_view(request):
+    users = User.objects.filter(is_staff=False)
+    return render(request, 'admin_registered_users.html', {'users': users})
+
+@staff_member_required(login_url='/admin-login/')
+def admin_qr_bookings_view(request):
+    qr_users = QRBooking.objects.all()
+    return render(request, 'admin_qr_bookings.html', {'qr_users': qr_users})
+
+@staff_member_required(login_url='/admin-login/')
+def admin_registered_bookings_view(request):
+    bookings = Booking.objects.select_related('user', 'event')
+    return render(request, 'admin_registered_bookings.html', {'bookings': bookings})
+
+@staff_member_required
+def admin_event_list_view(request):
+    events = Event.objects.all().prefetch_related('booking_set')
+    return render(request, 'admin_event_list.html', {'events': events})
+
+@staff_member_required(login_url='/admin-login/')
+def admin_add_event_view(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('admin-event-list')
+    else:
+        form = EventForm()
+    return render(request, 'admin_add_event.html', {'form': form})
+
+@staff_member_required(login_url='/admin-login/')
+def admin_edit_event_view(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if request.method == 'POST':
+        form = EventForm(request.POST, request.FILES, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('admin-event-list')
+    else:
+        form = EventForm(instance=event)
+    return render(request, 'admin_edit_event.html', {'form': form})
+
+@staff_member_required(login_url='/admin-login/')
+def admin_delete_event_view(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.delete()
+    return redirect('admin-event-list')
+
+@staff_member_required(login_url='/admin-login/')
+def admin_view_event_view(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    registered_bookings = Booking.objects.filter(event=event)
+    qr_bookings = QRBooking.objects.filter(event=event)
+
+    total_amount = sum(b.seats_booked * event.fees for b in registered_bookings) + sum(b.seats_booked * event.fees for b in qr_bookings)
+    total_bookings = sum(b.seats_booked for b in registered_bookings) + sum(b.seats_booked for b in qr_bookings)
+    return render(request, 'admin_view_event.html', {
+        'event': event,
+        'registered_bookings': registered_bookings,
+        'qr_bookings': qr_bookings,
+        'total_amount': total_amount,
+        'total_bookings': total_bookings
+    })
+

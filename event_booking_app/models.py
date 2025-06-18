@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+import qrcode
+from io import BytesIO
+from django.core.files.base import ContentFile
+
+
 class Event(models.Model):
     DOMAIN_CHOICES = [
         ('technology', 'Technology'),
@@ -35,9 +40,24 @@ class Booking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     seats_booked = models.PositiveIntegerField()
     booking_time = models.DateTimeField(auto_now_add=True)
+    qr_code = models.ImageField(upload_to='booking_qr/', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # Save first to get an ID
+
+        qr_content = f"Booking by {self.user.username} for event '{self.event.name}' on {self.booking_time}"
+        qr_img = qrcode.make(qr_content)
+        buffer = BytesIO()
+        qr_img.save(buffer, format='PNG')
+        filename = f'booking_{self.id}.png'
+
+        self.qr_code.save(filename, ContentFile(buffer.getvalue()), save=False)
+        super().save(update_fields=['qr_code'])
 
     def __str__(self):
         return f"{self.user.username} - {self.event.name}"
+
+
 
 class QRBooking(models.Model):
     name = models.CharField(max_length=100)
@@ -45,6 +65,19 @@ class QRBooking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     seats_booked = models.PositiveIntegerField()
     booking_time = models.DateTimeField(auto_now_add=True)
+    qr_code = models.ImageField(upload_to='booking_qr/', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        qr_content = f"QR Booking by {self.name} for '{self.event.name}' on {self.booking_time}"
+        qr_img = qrcode.make(qr_content)
+        buffer = BytesIO()
+        qr_img.save(buffer, format='PNG')
+        filename = f'qrbooking_{self.id}.png'
+
+        self.qr_code.save(filename, ContentFile(buffer.getvalue()), save=False)
+        super().save(update_fields=['qr_code'])
 
     def __str__(self):
         return f"{self.name} - {self.event.name}"

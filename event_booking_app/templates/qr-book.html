@@ -77,7 +77,7 @@
 
     const eventFees = {
         {% for event in events %}
-            "{{ event.name }}": {{ event.fees }}
+            "{{ event.name|escapejs }}": {{ event.fees }},
         {% endfor %}
     };
 
@@ -91,7 +91,10 @@
 
     eventSelect.addEventListener('change', updateTotal);
     seatsInput.addEventListener('input', updateTotal);
+
+    updateTotal();  // initial trigger
 </script>
+
 
 </body>
 </html>

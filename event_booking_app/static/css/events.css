@@ -1,9 +1,10 @@
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f9f9f9;
-    color: #333;
-    background: linear-gradient(to bottom right, #fffbea, #fef9c3);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #d9f99d, #fef9c3, #ffffff);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
 }
 
 .navbar {
@@ -47,14 +48,14 @@ body {
 }
 
 .navbar .right .username-display {
-    font-size: 18px; /* or larger, like 20px */
+    font-size: 18px; 
     font-weight: 500;
     margin-right: 7px;
 }
 
 .navbar .right span,
 .navbar .right a {
-    color: #333;  /* Make text visible on white background */
+    color: #333;  
     font-size: 14px;
     font-weight: 500;
     text-decoration: none;

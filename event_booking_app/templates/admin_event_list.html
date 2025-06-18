@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Events</title>
+    <link rel="stylesheet" href="{% static 'css/admin_event_list.css' %}">
+</head>
+<body>
+
+    <div class="page-header">
+        <h1>Events</h1>
+        <a href="{% url 'admin-add-event' %}" class="add-button">➕ Add New Event</a>
+        <a href="{% url 'admin-dashboard' %}" class="back-button">← Back to Dashboard</a>
+    </div>
+    
+    <div class="card-container">
+        {% for event in events %}
+        <div class="event-card">
+            <h2>{{ event.name }}</h2>
+            <p><strong>Date:</strong> {{ event.date }}</p>
+            <p><strong>Location:</strong> {{ event.location }}</p>
+            <div class="actions">
+                <a href="{% url 'admin-view-event' event.pk %}" class="button">View</a>
+                <a href="{% url 'admin-edit-event' event.pk %}" class="button">Edit</a>
+                <a href="{% url 'admin-delete-event' event.pk %}" class="button" onclick="return confirm('Delete this event?')">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

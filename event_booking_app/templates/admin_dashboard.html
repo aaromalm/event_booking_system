@@ -1,69 +1,54 @@
-<!-- templates/admin_dashboard.html -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Dashboard - EventHive</title>
-  <style>
-    body {
-      background: #fff9e6;
-      font-family: 'Poppins', sans-serif;
-      padding: 30px;
-    }
-    h1 {
-      text-align: center;
-    }
-    .section {
-      margin: 30px 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-    }
-    th, td {
-      padding: 12px;
-      border: 1px solid #ccc;
-      text-align: left;
-    }
-    th {
-      background: #ffda77;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - EventHive</title>
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <link rel="icon" href="{% static 'images/EventHive.png' %}" type="image/png">                   
 </head>
 <body>
-  <h1>Welcome Admin!</h1>
+    <div class="admin-dashboard-wrapper">
+        <header class="admin-dashboard-header">
+            <div class="admin-logo-header">
+                <img src="{% static 'images/EventHive.png' %}" alt="EventHive Logo" class="admin-logo-img">
+                <span class="admin-logo-text">EventHive Admin</span>
+            </div>
+            <div class="admin-header-right">
+                <p class="welcome-text">Welcome, {{ request.user.username }}</p>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit">Logout</button>
+                </form>
+            </div>
 
-  <div class="section">
-    <h2>Users</h2>
-    <table>
-      <tr>
-        <th>ID</th><th>Username</th><th>Email</th>
-      </tr>
-      {% for user in users %}
-      <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+        </header>
 
-  <div class="section">
-    <h2>Events</h2>
-    <table>
-      <tr>
-        <th>ID</th><th>Name</th><th>Date</th><th>Location</th>
-      </tr>
-      {% for event in events %}
-      <tr>
-        <td>{{ event.id }}</td>
-        <td>{{ event.name }}</td>
-        <td>{{ event.date }}</td>
-        <td>{{ event.location }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+        <div class="dashboard-content-row">
+            <div class="dashboard-card">
+                <h2>Events</h2>
+                <p class="card-count">{{ events.count }}</p>
+                <a href="{% url 'admin-event-list' %}" class="dashboard-link">View Events</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Registered Users</h2>
+                <p class="card-count">{{ users.count }}</p>
+                <a href="{% url 'admin-registered-users' %}" class="dashboard-link">View Users</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>Registered Bookings</h2>
+                <p class="card-count">{{ total_registered_bookings }}</p>
+                <a href="{% url 'admin-registered-bookings' %}" class="dashboard-link">View Bookings</a>
+            </div>
+
+            <div class="dashboard-card">
+                <h2>QR Bookings</h2>
+                <p class="card-count">{{ qr_users.count }}</p>
+                <a href="{% url 'admin-qr-bookings' %}" class="dashboard-link">View Bookings</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
