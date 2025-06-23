@@ -28,6 +28,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['172.25.247.140', 'localhost', '127.0.0.1']
 
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get("postgresql://event_booking_db_zmkg_user:tqXvYNsRq6wM3xQch0k82ZiKcd2qfp1C@dpg-d1cekl6r433s73fpf5vg-a/event_booking_db_zmkg"), conn_max_age=600)
+}
 
 
 # Application definition
@@ -51,7 +56,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'event_booking_project.urls'
 
@@ -126,6 +134,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

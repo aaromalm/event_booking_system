@@ -1,0 +1,244 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #d9f99d, #fef9c3, #ffffff);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.login-wrapper,
+.register-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+}
+
+.main-header {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 40px;
+    color: #222;
+    font-family: 'Exo 2', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-container,
+.register-container {
+    background: linear-gradient(to bottom right, #fffef6, #fdf5c5);
+    padding: 30px 40px;
+    border-radius: 16px;
+    width: 350px;
+    box-shadow: 0 8px 20px rgba(247, 197, 0, 0.2);
+    border: 2px solid #111;
+}
+
+.login-container h2,
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #222;
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+}
+
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 500;
+    font-family: 'Open Sans', sans-serif;
+    color: #222;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    background-color: #fff;
+    color: #222;
+    font-family: 'Open Sans', sans-serif;
+}
+
+input:focus {
+    border-color: #ffcc00;
+    outline: none;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: #ffcc00;
+    color: black;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 12px rgba(60, 60, 60, 0.3);
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #e6b800;
+    box-shadow: 0 8px 18px rgba(230, 184, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+.error-messages {
+    color: #d32f2f;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+.success-message {
+    color: green;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Link Styling */
+a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #388e3c;
+}
+
+.event-logo-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.event-logo-img {
+    height: 58px;
+    width: auto;
+    border-radius: 6px;
+    object-fit: contain;
+}
+
+.event-logo-text {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 38px;
+    font-weight: 600;
+    color: #222;
+}
+
+.top-bar-container {
+    position: relative;
+    width: 100%;
+}
+
+.admin-login-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+.user-login-container {
+    position: absolute;
+    top: 20px;
+    right: 180px; 
+    z-index: 999;
+}
+
+/* QR Upload */
+.large-dropdown {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    color: #222;
+    font-family: 'Open Sans', sans-serif
+}
+
+input[type="number"] {
+    width: 94%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #999;
+    color: #222;
+    font-family: 'Open Sans', sans-serif
+}
+
+.qr-upload-section {
+    margin-top: 40px;
+    text-align: center;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.qr-upload-section:hover {
+    border-color: #4CAF50;
+    background-color: #f1fff4;
+}
+
+.qr-upload-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    margin-bottom: 12px;
+}
+
+#qr-file {
+    padding: 8px;
+    border: 1px solid #aaa;
+    border-radius: 8px;
+    background-color: white;
+    font-size: 14px;
+}
+
+#qr-error {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.qr-upload-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.qr-upload-btn:hover {
+    background-color: #45a049;
+}
+
+.login-box {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
