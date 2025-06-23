@@ -29,7 +29,7 @@
 
         <div class="right">
             {% if user.is_authenticated %}
-                <span class="username-display">Hi {{ user.first_name }}</span>
+                <span class="username-display">Hi {{ user.first_name }} {{user.last_name}}</span>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit">Logout</button>
