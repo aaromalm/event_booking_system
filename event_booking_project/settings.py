@@ -78,15 +78,16 @@ WSGI_APPLICATION = 'event_booking_project.wsgi.application'
 
 
 DATABASES = {
-'default': {
-'ENGINE': 'django.db.backends.mysql',
-'NAME': 'event_booking_db',
-'USER': 'vvdn',
-'PASSWORD': 'vvdn2025',
-'HOST': 'localhost',
-'PORT': '3306',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('event_booking_db'),
+        'USER': os.environ.get('admin'),
+        'PASSWORD': os.environ.get('tqXvYNsRq6wM3xQch0k82ZiKcd2qfp1C'),
+        'HOST': os.environ.get('dpg-d1cekl6r433s73fpf5vg-a'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+    }
 }
-}
+
 
 
 
