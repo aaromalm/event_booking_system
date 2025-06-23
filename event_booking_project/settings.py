@@ -26,12 +26,15 @@ SECRET_KEY = 'django-insecure-9=b1#jq3!mwhq!v$0tyt*xwlesyk=*^yzlx5ehpa8%ol0t*gj2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.25.247.140', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("postgresql://event_booking_db_zmkg_user:tqXvYNsRq6wM3xQch0k82ZiKcd2qfp1C@dpg-d1cekl6r433s73fpf5vg-a/event_booking_db_zmkg"), conn_max_age=600)
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600
+    )
 }
 
 
@@ -50,13 +53,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -85,16 +88,16 @@ WSGI_APPLICATION = 'event_booking_project.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('event_booking_db'),
-        'USER': os.environ.get('admin'),
-        'PASSWORD': os.environ.get('tqXvYNsRq6wM3xQch0k82ZiKcd2qfp1C'),
-        'HOST': os.environ.get('dpg-d1cekl6r433s73fpf5vg-a'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('event_booking_db'),
+#         'USER': os.environ.get('admin'),
+#         'PASSWORD': os.environ.get('tqXvYNsRq6wM3xQch0k82ZiKcd2qfp1C'),
+#         'HOST': os.environ.get('dpg-d1cekl6r433s73fpf5vg-a'),
+#         'PORT': os.environ.get('DB_PORT', '5432'),
+#     }
+# }
 
 
 
@@ -157,6 +160,6 @@ EMAIL_HOST_PASSWORD = 'xvhq wscn vvxn dqnp'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = '/login/'
