@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: event-booking-system
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python3 manage.py runserver 0.0.0.0:8000"
+    pythonVersion: 3.12.3  # ⬅️ Use 3.12 or 3.11
