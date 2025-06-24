@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9=b1#jq3!mwhq!v$0tyt*xwlesyk=*^yzlx5ehpa8%ol0t*gj2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['eventhive-uotj.onrender.com']
 
@@ -34,6 +34,9 @@ DATABASES = {
     'default': dj_database_url.config(conn_max_age=600)
 }
 
+CSRF_TRUSTED_ORIGINS = ['https://your-render-app.onrender.com']
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
