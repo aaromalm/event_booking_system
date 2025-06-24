@@ -260,7 +260,11 @@ qr.save("qr_booking_link.png")
 
 # For logout
 from django.contrib.auth import logout
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_protect
 
+@require_POST
+@csrf_protect
 def logout_view(request):
     logout(request)
     return redirect('login')
