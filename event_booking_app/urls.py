@@ -1,11 +1,15 @@
 from django.urls import path
 from . import views
 from .views import *
+from django.views.generic import RedirectView
+from django.shortcuts import redirect
 
 
 urlpatterns = [
    # path('event/', EventAPIView.as_view(),name='event'),
    # path('event/<int:pk>/', EventAPIView.as_view(),name='event-pk'),
+   
+   path('', LoginAPIView.as_view(), name='home'), 
    
    path('register/', RegisterAPIView.as_view(),name='register'),
    path('login/', LoginAPIView.as_view(),name='login'),
