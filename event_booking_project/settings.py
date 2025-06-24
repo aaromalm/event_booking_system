@@ -34,7 +34,7 @@ DATABASES = {
     'default': dj_database_url.config(conn_max_age=600)
 }
 
-CSRF_TRUSTED_ORIGINS = ['https://your-render-app.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://eventhive-uotj.onrender.com']
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
