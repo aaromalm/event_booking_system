@@ -392,18 +392,3 @@ def admin_view_event_view(request, pk):
         'total_amount': total_amount,
         'total_bookings': total_bookings
     })
-
-#Custom Admin login
-from django.contrib.auth import get_user_model
-from django.http import HttpResponse
-
-def create_admin_user(request):
-    User = get_user_model()
-    if not User.objects.filter(username='aaromal123').exists():
-        User.objects.create_superuser(
-            username='aaromal123',
-            email='aaromalm1032004@gmail.com',
-            password='aaromal123'
-        )
-        return HttpResponse("Custom superuser created successfully.")
-    return HttpResponse("Admin already exists.")
