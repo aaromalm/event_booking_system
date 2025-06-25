@@ -18,10 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from event_booking_app.views import create_admin_user
+
 
 urlpatterns = [
    path('admin/', admin.site.urls),
    path('', include('event_booking_app.urls')), 
+   path('create-admin/', create_admin_user),  # remove after running once
 ]
 
 if settings.DEBUG:

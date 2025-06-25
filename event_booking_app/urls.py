@@ -37,11 +37,9 @@ urlpatterns = [
     path('admin-events/delete/<int:pk>/', admin_delete_event_view, name='admin-delete-event'),
     path('admin-events/view/<int:pk>/', admin_view_event_view, name='admin-view-event'),
 
-
     path('admin-registered-users/', admin_registered_users_view, name='admin-registered-users'),
     path('admin-qr-bookings/', admin_qr_bookings_view, name='admin-qr-bookings'),
     path('admin-registered-bookings/', admin_registered_bookings_view, name='admin-registered-bookings'),
-
 
 
 ]
